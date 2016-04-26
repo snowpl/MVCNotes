@@ -1,0 +1,93 @@
+@model IEnumerable<MvcNotes.Models.Note>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    div {
+        transition: ease-in-out;
+    }
+
+    .ng-hide {
+        height: 0;
+    }
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.js"></script>
+
+
+<div class="container" alt="Background" style="background-image:url(/images/SearchBg.jpg); height:300px;">
+    <form asp-controller="Notes" asp-action="Index" method="get">
+        <a asp-action="Create"><button type="button" class="btn btn-warning">Create New</button></a>
+        <p style="text-align:center; padding: 90px 0px 0px 0px">
+            <h2 style="font: bold 30px arial, verdana; color:chocolate; text-align:center;">
+                Tworz i zarzadzaj
+                </h2>
+            <h3 style="text-align:center">
+                        Hashtag: @Html.DropDownList("noteHashtag", "All")
+                        Name: <input placeholder="Podaj nazwe notatki" type="text" name="SearchString">
+                        <input type="submit" value="Filter" class="btn btn-warning btn-md" />
+            </h3>
+        </p>
+    </form>
+</div>
+        
+
+<body ng-app="ngAnimate">
+
+    Hide the notes: <input type="checkbox" ng-model="myCheck">
+
+    <div ng-hide="myCheck">
+
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Hashtag)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReleaseDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NoteContents)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Hashtag)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReleaseDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NoteContents)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    </body>
+
+<script>
+var app = angular.module('myApp', ['ngAnimate']);
+</script>
